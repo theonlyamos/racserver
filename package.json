@@ -1,0 +1,29 @@
+{
+  "name": "rac-server",
+  "version": "1.0.0",
+  "description": "Remote access app - server",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theonlyamos/racserver.git"
+  },
+  "author": "Amos Amissah",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/theonlyamos/racserver/issues"
+  },
+  "homepage": "https://github.com/theonlyamos/racserver#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "jade": "^1.11.0",
+    "opn": "^5.3.0"
+  },
+  "devDependencies": {
+    "electron": "^2.0.9"
+  }
+}
