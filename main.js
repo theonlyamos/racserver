@@ -17,10 +17,12 @@ backend.use(cors())
 var indexRoute = require('./routes/index')
 var dirRoute = require('./routes/dir')
 var infoRoute = require('./routes/info')
+var windowRoute = require('./routes/window')
 
 backend.use('/', indexRoute)
 backend.use('/dir', dirRoute)
 backend.use('/info', infoRoute)
+backend.use('/window', windowRoute)
 
 backend.use(function(req, res, next) {
     next(createError(404));

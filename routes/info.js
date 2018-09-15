@@ -6,17 +6,8 @@ const exec = require('child_process').exec
 
 var router = express.Router()
 
-router.route('/windows')
-.get((req, res, next) => {
-    exec("wmctrl -l | awk '{$3=\"\";$2=\"\";$1=\"\";print $0}'", (err, stdout, stderr) => {
-        var windows = stdout.split('\n')
-        res.send(windows)
-    })
-})
-
 router.route('/')
 .post((req, res, next) => {
-    var name = req.body.name
     fullpath = path.join(process.env.HOME, req.params.name)
     if (fs.existsSync(fullpath)) {
         if (fs.lstatSync(fullpath).isDirectory()) {
