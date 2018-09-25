@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const opn = require('opn')
 const os = require('os')
+const iconName = require('./checktype')
 
 var router = express.Router()
 
@@ -20,6 +21,7 @@ router.route('/')
         if (fs.lstatSync(fullpath).isDirectory()) {
             var dirs = fs.readdirSync(fullpath)
             var dirlist = []
+            var files = []
             for (var i=0; i<dirs.length; i++) {
                 if (!dirs[i].startsWith(".") && !dirs[i].endsWith(".desktop")) {
                     var dir = path.join(fullpath, dirs[i])
@@ -30,14 +32,16 @@ router.route('/')
                         })
                     }
                     else {
-                        dirlist.push({name: path.basename(dir),
+                        files.push({name: path.basename(dir),
                             fullpath: dir,
-                            type: 'file'
+                            type: 'file',
+                            icon: iconName(path.extname(dir))
                         })
                     }
 
                 }
             }
+            dirlist = dirlist.concat(files)
             res.send(dirlist)
         }
         else {
