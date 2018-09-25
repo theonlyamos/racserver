@@ -12,7 +12,18 @@ router.route('/')
 })
 .post((req, res, next) => {
     var windowName = req.body.window
-    exec("xdotool search --name '"+windowName+"'", (err, stdout, stderr) => {
+    /*windowName = windowName.replace("(", "\(")
+    windowName = windowName.replace(")", "\)")
+    windowName = windowName.replace("[", "\[")
+    windowName = windowName.replace("]", "\]")
+    */
+   if (windowName.includes('(')) {
+       windowName = windowName.substring(0, windowName.indexOf('(')-1)
+   }
+   if (windowName.includes('[')) {
+        windowName = windowName.substring(0, windowName.indexOf(']')-1)
+   }
+    exec('xdotool search --name "'+windowName+'"', (err, stdout, stderr) => {
         if (!err) {
             exec("xdotool windowactivate "+stdout, (err, stdout, stderr) => {
                 res.send({success: true})
@@ -21,12 +32,27 @@ router.route('/')
     })
 })
 .delete((req, res, next) => {
-    var win = req.query.window
-    exec("xdotool search --name '"+win+"'", (err, stdout, stderr) => {
+    var windowName = req.query.window
+    /*
+    windowName = windowName.replace("(", "\\(")
+    windowName = windowName.replace(")", "\\)")
+    windowName = windowName.replace("[", "\\[")
+    windowName = windowName.replace("]", "\\]")
+    */
+    if (windowName.includes('(')) {
+        windowName = windowName.substring(0, windowName.indexOf('(')-1)
+    }
+    if (windowName.includes('[')) {
+            windowName = windowName.substring(0, windowName.indexOf('[')-1)
+    }
+    exec("xdotool search --name '"+windowName+"'", (err, stdout, stderr) => {
         if (!err) {
-            exec("xdotool windowclose "+stdout, (err, stdout, stderr) => {
+            exec("xdotool windowkill "+stdout, (err, stdout, stderr) => {
                 res.send({success: true})
             })
+        }
+        else {
+            res.send({success: false})
         }
     })
 })

@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors');
+var createError = require('http-errors');
 
 var backend = express()
 const server = require('http').Server(backend)
@@ -13,16 +14,19 @@ backend.set('port', port)
 backend.use(express.json())
 backend.use(express.urlencoded({extended: true}))
 backend.use(cors())
+backend.use(express.static(require('os').userInfo().homedir));
 
 var indexRoute = require('./routes/index')
 var dirRoute = require('./routes/dir')
 var infoRoute = require('./routes/info')
 var windowRoute = require('./routes/window')
+var commandRoute = require('./routes/command')
 
 backend.use('/', indexRoute)
 backend.use('/dir', dirRoute)
 backend.use('/info', infoRoute)
 backend.use('/window', windowRoute)
+backend.use('/command', commandRoute)
 
 backend.use(function(req, res, next) {
     next(createError(404));
@@ -83,7 +87,7 @@ function onError(error) {
   
 function onListening() {
   var addr = server.address();
-  console.log("Listening on port "+addr.port)
+  //console.log("Listening on port "+addr.port)
 }
 
 

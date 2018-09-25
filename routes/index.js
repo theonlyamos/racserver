@@ -14,9 +14,17 @@ router.route('/')
     info.memory = {}
     info.memory.total = os.totalmem()/(1024*1024)
     info.memory.free = os.freemem()/(1024*1024)
-    info.interfaces = Object.keys(os.networkInterfaces())
+    var ifaces = Object.keys(os.networkInterfaces())
+    var interfaces = []
+    for (var i=0; i<ifaces.length; i++){
+        var iface = {}
+        iface.name = ifaces[i]
+        iface.address = os.networkInterfaces()[ifaces[i]][0].address
+        interfaces.push(iface)
+    }
+    info.interfaces = interfaces
     info.cpuusage = process.cpuUsage()
-    info.uptime = ((os.uptime()/60).toFixed(0)+":"+(os.uptime()%60).toFixed(0))
+    info.uptime = ((os.uptime()/(60*60)).toFixed(0)+":"+(os.uptime()%60).toFixed(0))
     info.platform = os.type()
     res.send(info)
 })
